@@ -3,6 +3,7 @@
 
 import pygame
 import random
+import math
 SCREEN_WIDTH = 480
 SCREEN_HEIGHT = 640
 
@@ -33,6 +34,7 @@ class Player(pygame.sprite.Sprite):
 		self.img_index = 0
 		self.is_attacked = False			#check the status of the player.
 		self.equ = 1
+		self.Big_bomb = 0
 	def shoot(self, bullet_img):
 		bullet_width = 20
 		if self.equ == 1:	
@@ -50,6 +52,8 @@ class Player(pygame.sprite.Sprite):
 			self.bullets.add(bullet)
 			bullet = Bullet(bullet_img,	(self.rect.midtop[0] + bullet_width, self.rect.midtop[1]))
 			self.bullets.add(bullet)
+	def destroy(self):
+		self.Big_bomb -= 1 
 
 	def moveup(self):
 		if self.rect.top <=0:
@@ -78,7 +82,7 @@ class Enemy(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		self.rect.topleft = init_pos
 		self.down_imgs = enemy_down_imgs
-		self.speed = 2
+		self.speed = 3
 		self.down_index = 0
 	def move(self):
 		self.rect.top += self.speed
@@ -88,8 +92,49 @@ class Bomb(pygame.sprite.Sprite):
 		self.image = bomb_img
 		self.rect = self.image.get_rect()
 		self.rect.midbottom = init_pos
-		self.speed = 2
+		self.speed = 3
 	def move(self):
 		self.rect.top += self.speed
-		self.rect.left += self.speed/4*random.randint(-2,  +2)
-
+		self.rect.left += self.speed/4*random.randint(-3,  +3)
+class Big_bomb(pygame.sprite.Sprite):
+	def __init__(self, Big_bomb_img, init_pos):
+		pygame.sprite.Sprite.__init__(self)
+		self.image = Big_bomb_img
+		self.rect = self.image.get_rect()
+		self.rect.midbottom = init_pos
+		self.speed = 3
+	def move(self):
+		self.rect.top += self.speed
+		self.rect.left += self.speed/4*random.randint(-3,  +3)
+class Enemy_m(pygame.sprite.Sprite):
+	def __init__(self, enemy_m_img, enemy_m_down_imgs, init_pos):
+		pygame.sprite.Sprite.__init__(self)
+		self.image = enemy_m_img
+		self.rect = self.image.get_rect()
+		self.rect.topleft = init_pos
+		self.down_imgs = enemy_m_down_imgs
+		self.speed = 4
+		self.down_index = 0
+		self.life = 2
+	def move(self):
+		angle = 0                     #random.randint(30,60)
+		velx = self.speed*math.cos(angle)
+		vely = self.speed*math.sin(angle)
+		self.rect.top  +=  velx
+		self.rect.left += vely
+class Enemy_l(pygame.sprite.Sprite):
+	def __init__(self, enemy_l_img, enemy_l_down_imgs,init_pos):
+		pygame.sprite.Sprite.__init__(self)
+		self.image = enemy_l_img
+		self.rect = self.image.get_rect()
+		self.rect.topleft = init_pos
+		self.down_imgs = enemy_l_down_imgs
+		self.speed = 1
+		self.down_index = 0
+		self.life = 10
+	def move(self):
+		angle = 0#random.randint(30,60)
+		velx = self.speed*math.cos(angle)
+		vely = self.speed*math.sin(angle)
+		self.rect.top  +=  velx
+		self.rect.left += vely
