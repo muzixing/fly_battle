@@ -1,4 +1,4 @@
-PythonShootGame
+FLY_BATTLE
 ===============
 
 A simple shoot game by python
@@ -6,9 +6,9 @@ A simple shoot game by python
 
 This project only include two simple .py files: 
 
-  mainGame.py：the initialization and main loop of the game
+  muzi.py：the initialization and main loop of the game
   
-  gameRole.py: class of the game role
+  Role.py: class of the game role
   
   
 To run this game, first install python 2.7, then install the corresponding version of pygame.
